@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+
+# Environment Variables (NEVER commit this file!)
+.env
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# Editor / IDE
+.vscode/
+.idea/
+
+# Build output (if any)
+dist/
+build/

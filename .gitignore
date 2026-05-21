@@ -1,22 +1,48 @@
 # Dependencies
 node_modules/
+.pnpm-store/
 
-# Environment Variables (NEVER commit this file!)
+# Environment Variables (NEVER commit these!)
 .env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env.sample
+.env.example
+
+# Production Build Outputs
+dist/
+build/
+.next/
+out/
 
 # Logs
 logs/
 *.log
 npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
 
-# OS Files
-.DS_Store
-Thumbs.db
-
-# Editor / IDE
+# Editor / IDE Settings
 .vscode/
 .idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
 
-# Build output (if any)
-dist/
-build/
+# OS Diagnostic Files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Testing
+coverage/
+.nyc_output
+
+# Temporary files
+.turbo/
+.eslintcache

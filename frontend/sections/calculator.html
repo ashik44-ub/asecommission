@@ -1,0 +1,160 @@
+<!-- SECTION 2: CALCULATOR -->
+<section id="calculator-sec" class="tab-section">
+  <div class="calculator-grid">
+    
+    <!-- Calculator Entry Card -->
+    <div class="calculator-card glassmorphic">
+      <div class="card-title-header">
+        <i class="fa-solid fa-gears"></i>
+        <h2>Commission Parameter Inputs</h2>
+      </div>
+      <form id="commission-form">
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label for="rep-name">Sales Representative Name</label>
+            <div class="input-with-icon">
+              <i class="fa-regular fa-user"></i>
+              <input type="text" id="rep-name" placeholder="Enter representative name" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="period-select">Commission Period</label>
+            <div class="input-with-icon">
+              <i class="fa-regular fa-clock"></i>
+              <select id="period-select" required>
+                <option value="">Select Month & Year</option>
+                <option value="January 2026">January 2026</option>
+                <option value="February 2026">February 2026</option>
+                <option value="March 2026">March 2026</option>
+                <option value="April 2026">April 2026</option>
+                <option value="May 2026" selected>May 2026</option>
+                <option value="June 2026">June 2026</option>
+                <option value="July 2026">July 2026</option>
+                <option value="August 2026">August 2026</option>
+                <option value="September 2026">September 2026</option>
+                <option value="October 2026">October 2026</option>
+                <option value="November 2026">November 2026</option>
+                <option value="December 2026">December 2026</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="total-collection-input">Total Collection Amount (Tk.)</label>
+          <div class="input-with-icon">
+            <span class="input-prefix">Tk.</span>
+            <input type="number" id="total-collection-input" min="0" placeholder="e.g. 250000" required>
+          </div>
+          <small class="helper-text">This will be calculated against the collection tier ranges.</small>
+        </div>
+
+        <hr class="form-divider">
+
+        <div class="form-group">
+          <div class="label-header">
+            <label>Service & TDS/VDS Payments Collection List</label>
+            <span class="badge" id="service-count-badge">0 Transactions</span>
+          </div>
+          
+          <div class="add-payment-group">
+            <div class="input-with-icon flex-grow">
+              <span class="input-prefix">Tk.</span>
+              <input type="number" id="service-payment-amount" min="0" placeholder="e.g. 5000">
+            </div>
+            <button type="button" class="btn btn-secondary" id="btn-add-payment">
+              <i class="fa-solid fa-plus"></i> Add
+            </button>
+          </div>
+          <small class="helper-text">Add payments individually to calculate individual bracket rates (e.g. Tk. 150, 300, 400, or 500 per transaction).</small>
+        </div>
+
+        <!-- Live Tag List of Collections -->
+        <div class="payments-tags-container" id="payments-tags-container">
+          <div class="no-payments-placeholder">No service collections added yet.</div>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn btn-danger-outline" id="btn-reset-form">
+            <i class="fa-solid fa-trash-can"></i> Reset
+          </button>
+          <button type="submit" class="btn btn-primary" id="btn-save-record">
+            <i class="fa-solid fa-floppy-disk"></i> Save & Persist Record
+          </button>
+        </div>
+
+      </form>
+    </div>
+
+    <!-- Live Calculation Summary Card -->
+    <div class="summary-card glassmorphic">
+      <div class="card-title-header">
+        <i class="fa-solid fa-file-invoice-dollar"></i>
+        <h2>Real-time Invoice Summary</h2>
+      </div>
+      
+      <div class="invoice-meta">
+        <div>
+          <span class="label">Representative:</span>
+          <strong id="invoice-rep-name">N/A</strong>
+        </div>
+        <div>
+          <span class="label">Period:</span>
+          <strong id="invoice-period">May 2026</strong>
+        </div>
+      </div>
+
+      <div class="receipt-divider"></div>
+
+      <div class="receipt-section">
+        <h4>Collection Commission</h4>
+        <div class="receipt-row">
+          <span>Total Collection Base</span>
+          <span class="val" id="rec-total-collection">Tk. 0</span>
+        </div>
+        <div class="receipt-row font-sm text-muted">
+          <span>Applicable Tier Rate</span>
+          <span class="val" id="rec-tier-rate">0.00%</span>
+        </div>
+        <div class="receipt-row highlight-row">
+          <span>Collection Commission Earned</span>
+          <span class="val text-blue font-semibold" id="rec-collection-comm">Tk. 0</span>
+        </div>
+        <div class="receipt-row highlight-row">
+          <span>Milestone Cash Bonus</span>
+          <span class="val text-yellow font-semibold" id="rec-collection-bonus">Tk. 0</span>
+        </div>
+      </div>
+
+      <div class="receipt-divider-dash"></div>
+
+      <div class="receipt-section">
+        <h4>Service & TDS/VDS Commission</h4>
+        <div class="receipt-row">
+          <span>Total Added Transactions</span>
+          <span class="val" id="rec-service-count">0 items</span>
+        </div>
+        <div class="receipt-row highlight-row">
+          <span>Service Commission Earned</span>
+          <span class="val text-purple font-semibold" id="rec-service-comm">Tk. 0</span>
+        </div>
+      </div>
+
+      <div class="receipt-divider"></div>
+
+      <div class="grand-total-container">
+        <div class="grand-total-label">Grand Total Commission</div>
+        <div class="grand-total-val" id="rec-grand-total">Tk. 0</div>
+      </div>
+
+      <div class="summary-actions">
+        <button class="btn btn-secondary-outline btn-full" id="btn-print-slip">
+          <i class="fa-solid fa-print"></i> Generate Printable Slip
+        </button>
+      </div>
+
+    </div>
+
+  </div>
+</section>

@@ -1,0 +1,86 @@
+<!-- SECTION 1: OVERVIEW (DASHBOARD) -->
+<section id="overview-sec" class="tab-section active">
+  
+  <!-- Metric Widgets -->
+  <div class="metrics-grid">
+    <div class="metric-card glassmorphic">
+      <div class="metric-header">
+        <span class="metric-title">Total Collections</span>
+        <i class="fa-solid fa-bangladeshi-taka-sign metric-icon text-blue"></i>
+      </div>
+      <div class="metric-value" id="stat-total-collection">Tk. 0</div>
+      <div class="metric-footer text-muted">Cumulative collection saved</div>
+    </div>
+    
+    <div class="metric-card glassmorphic">
+      <div class="metric-header">
+        <span class="metric-title">Total Commission</span>
+        <i class="fa-solid fa-hand-holding-dollar metric-icon text-green"></i>
+      </div>
+      <div class="metric-value" id="stat-total-commission">Tk. 0</div>
+      <div class="metric-footer text-muted">Excluding direct cash bonuses</div>
+    </div>
+    
+    <div class="metric-card glassmorphic">
+      <div class="metric-header">
+        <span class="metric-title">Total Bonus Earned</span>
+        <i class="fa-solid fa-gift metric-icon text-yellow"></i>
+      </div>
+      <div class="metric-value" id="stat-total-bonus">Tk. 0</div>
+      <div class="metric-footer text-muted">Milestone-based incentives</div>
+    </div>
+
+    <div class="metric-card glassmorphic">
+      <div class="metric-header">
+        <span class="metric-title">Grand Total Payout</span>
+        <i class="fa-solid fa-wallet metric-icon text-purple"></i>
+      </div>
+      <div class="metric-value" id="stat-grand-total">Tk. 0</div>
+      <div class="metric-footer text-muted">Total payouts calculated</div>
+    </div>
+  </div>
+
+  <!-- Charts and Analytics Grid -->
+  <div class="analytics-grid">
+    <div class="chart-card glassmorphic">
+      <h3>Monthly Performance & Commission Breakdown</h3>
+      <div class="chart-container">
+        <canvas id="overview-chart"></canvas>
+      </div>
+    </div>
+    <div class="chart-card glassmorphic">
+      <h3>Commission Breakdown by Category</h3>
+      <div class="chart-container">
+        <canvas id="doughnut-chart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- Recent Records Preview -->
+  <div class="recent-records-container glassmorphic">
+    <div class="container-header">
+      <h3>Recent Commission Computations</h3>
+      <a href="#records" class="btn-text-link" onclick="switchTab('records')">View All Records <i class="fa-solid fa-arrow-right"></i></a>
+    </div>
+    <div class="table-responsive">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Representative Name</th>
+            <th>Period</th>
+            <th>Total Collection</th>
+            <th>Service Comm.</th>
+            <th>Grand Total Commission</th>
+            <th>Calculation Date</th>
+          </tr>
+        </thead>
+        <tbody id="recent-records-tbody">
+          <tr>
+            <td colspan="6" class="text-center text-muted">No records found. Save a calculation to start!</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</section>

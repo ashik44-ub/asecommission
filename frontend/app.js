@@ -11,9 +11,41 @@ let overviewChart = null;
 let doughnutChart = null;
 
 // ==========================================================================
-// Initialization & Event Listeners
+// Initialization & Dynamic Template Loading
 // ==========================================================================
-document.addEventListener('DOMContentLoaded', () => {
+async function loadSections() {
+  const container = document.getElementById('content-body');
+  if (!container) return;
+
+  const sections = ['overview', 'calculator', 'records', 'rules'];
+  container.innerHTML = ''; // Clear loading screen
+
+  for (const sec of sections) {
+    try {
+      const res = await fetch(`/sections/${sec}.html`);
+      if (!res.ok) throw new Error(`Status ${res.status}`);
+      const html = await res.text();
+      container.insertAdjacentHTML('beforeend', html);
+    } catch (err) {
+      console.error(`Failed to load component section: ${sec}`, err);
+      // Fallback injection for offline/local view resilience
+      container.insertAdjacentHTML('beforeend', `
+        <section id="${sec}-sec" class="tab-section ${sec === 'overview' ? 'active' : ''}">
+          <div class="glassmorphic text-center" style="padding: 3rem;">
+            <i class="fa-solid fa-circle-exclamation text-red" style="font-size: 2.5rem; margin-bottom: 1rem;"></i>
+            <h3>Failed to Load ${sec}</h3>
+            <p class="text-muted" style="margin-top: 0.5rem;">The component template could not be loaded dynamically. Please refresh or check connection.</p>
+          </div>
+        </section>
+      `);
+    }
+  }
+}
+
+document.addEventListener('DOMContentLoaded', async () => {
+  // Load templates dynamically first
+  await loadSections();
+
   initTheme();
   initNavigation();
   initCalculator();
@@ -21,11 +53,17 @@ document.addEventListener('DOMContentLoaded', () => {
   
   // Date Display initialization
   const dateOptions = { month: 'long', day: 'numeric', year: 'numeric' };
-  document.getElementById('current-date').textContent = new Date().toLocaleDateString('en-US', dateOptions);
+  const currentDateEl = document.getElementById('current-date');
+  if (currentDateEl) {
+    currentDateEl.textContent = new Date().toLocaleDateString('en-US', dateOptions);
+  }
 
   // Global actions
-  document.getElementById('btn-export-csv').addEventListener('click', exportToCSV);
-  document.getElementById('search-records-input').addEventListener('input', filterRecords);
+  const exportBtn = document.getElementById('btn-export-csv');
+  if (exportBtn) exportBtn.addEventListener('click', exportToCSV);
+  
+  const searchInput = document.getElementById('search-records-input');
+  if (searchInput) searchInput.addEventListener('input', filterRecords);
 });
 
 // ==========================================================================
@@ -172,6 +210,13 @@ function calculateCollectionCommission(collection) {
   return { rate, commission, bonus };
 }
 
+// Global scope remove payment handler (needs to be globally accessible for DOM click inline handler)
+window.removeServicePayment = function(index) {
+  servicePaymentsList.splice(index, 1);
+  renderServiceTags();
+  updateRealTimeInvoice();
+};
+
 function calculateServiceCommission(payments) {
   let totalServiceComm = 0;
   payments.forEach(val => {
@@ -201,6 +246,11 @@ function initCalculator() {
   const btnReset = document.getElementById('btn-reset-form');
   const calculatorForm = document.getElementById('commission-form');
   const btnPrintSlip = document.getElementById('btn-print-slip');
+
+  if (!totalCollInput || !calculatorForm) {
+    console.warn('Calculator DOM elements not found. Initialization skipped.');
+    return;
+  }
 
   // Trigger calculation update on keyboard entry
   totalCollInput.addEventListener('input', updateRealTimeInvoice);
@@ -411,12 +461,6 @@ function renderServiceTags() {
   });
 }
 
-function removeServicePayment(index) {
-  servicePaymentsList.splice(index, 1);
-  renderServiceTags();
-  updateRealTimeInvoice();
-}
-
 function updateRealTimeInvoice() {
   const totalCollInput = document.getElementById('total-collection-input');
   const totalCollection = parseFloat(totalCollInput.value) || 0;
@@ -498,7 +542,8 @@ function saveLocalRecord(recordInput) {
   renderAppComponents();
 }
 
-async function deleteRecord(id, repName) {
+// Global scope delete handler for table button actions
+window.deleteRecord = async function(id, repName) {
   if (!confirm(`Are you sure you want to delete the commission record for ${repName}?`)) {
     return;
   }
@@ -525,7 +570,7 @@ async function deleteRecord(id, repName) {
       renderAppComponents();
     }
   }
-}
+};
 
 function renderAppComponents() {
   populateOverviewStats();
@@ -543,10 +588,15 @@ function populateOverviewStats() {
   const totalBonus = records.reduce((sum, r) => sum + (r.collectionBonus || 0), 0);
   const grandTotal = records.reduce((sum, r) => sum + (r.grandTotal || 0), 0);
 
-  document.getElementById('stat-total-collection').textContent = formatTk(totalColl);
-  document.getElementById('stat-total-commission').textContent = formatTk(totalComm);
-  document.getElementById('stat-total-bonus').textContent = formatTk(totalBonus);
-  document.getElementById('stat-grand-total').textContent = formatTk(grandTotal);
+  const totalCollEl = document.getElementById('stat-total-collection');
+  const totalCommEl = document.getElementById('stat-total-commission');
+  const totalBonusEl = document.getElementById('stat-total-bonus');
+  const grandTotalEl = document.getElementById('stat-grand-total');
+
+  if (totalCollEl) totalCollEl.textContent = formatTk(totalColl);
+  if (totalCommEl) totalCommEl.textContent = formatTk(totalComm);
+  if (totalBonusEl) totalBonusEl.textContent = formatTk(totalBonus);
+  if (grandTotalEl) grandTotalEl.textContent = formatTk(grandTotal);
 }
 
 function populateRecentRecordsTable() {

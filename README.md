@@ -93,16 +93,18 @@ A full-stack, premium-designed **Sales Commission Calculation & Tracking System*
 
 ```
 commission/
-├── api/
-│   └── index.js          # Express backend + MongoDB API routes
-├── app.js                # Frontend client-side logic
-├── index.html            # Main HTML page
-├── style.css             # Premium CSS styles
-├── server.js             # Local dev server runner
-├── vercel.json           # Vercel deployment config
-├── package.json
-├── .env.example          # Template for environment variables
-└── .gitignore
+├── frontend/             # Frontend client assets
+│   ├── index.html        # Main dashboard page
+│   ├── style.css         # Custom premium CSS styles
+│   └── app.js            # Client-side calculator and charts logic
+├── backend/              # Backend server environment
+│   ├── api/
+│   │   └── index.js      # Express application and API routes
+│   └── server.js         # Local server startup runner
+├── vercel.json           # Vercel serverless routing configuration
+├── package.json          # Node dependencies and orchestrator scripts
+├── .env.example          # Template for local environment configuration
+└── .gitignore            # Git exclusions
 ```
 
 ---

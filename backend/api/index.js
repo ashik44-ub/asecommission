@@ -103,6 +103,7 @@ function calculateCollectionCommission(collection) {
   return { rate, commission, bonus };
 }
 
+// Helper calculation for service payments
 function calculateServiceCommission(payments) {
   let totalServiceComm = 0;
   
@@ -201,7 +202,7 @@ app.delete('/api/records/:id', async (req, res) => {
 });
 
 // Serve static frontend files if running locally
-app.use(express.static(path.join(__dirname, '../')));
+app.use(express.static(path.join(__dirname, '../../frontend')));
 
 // Global 404 Handler for API
 app.use('/api/*', (req, res) => {
@@ -210,7 +211,7 @@ app.use('/api/*', (req, res) => {
 
 // Catch-all route to serve index.html for frontend routing (if needed)
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../index.html'));
+  res.sendFile(path.join(__dirname, '../../frontend/index.html'));
 });
 
 // Export app for local server and Vercel serverless functions

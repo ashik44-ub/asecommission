@@ -2,10 +2,10 @@
   "name": "commission-system",
   "version": "1.0.0",
   "description": "Sales Commission Calculation and History Tracking System",
-  "main": "api/index.js",
+  "main": "backend/api/index.js",
   "scripts": {
-    "start": "node server.js",
-    "dev": "nodemon server.js"
+    "start": "node backend/server.js",
+    "dev": "nodemon backend/server.js"
   },
   "dependencies": {
     "cors": "^2.8.5",

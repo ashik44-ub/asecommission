@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Commission System Dashboard</title>
+  <!-- Google Fonts: Outfit & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="dashboard-container">
+    
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="logo-wrapper">
+          <i class="fa-solid fa-calculator-combined logo-icon"></i>
+          <span>Commis<span class="highlight">Sync</span></span>
+        </div>
+      </div>
+      <nav class="nav-menu">
+        <a href="#overview" class="nav-link active" data-tab="overview">
+          <i class="fa-solid fa-chart-pie"></i> Dashboard Overview
+        </a>
+        <a href="#calculator" class="nav-link" data-tab="calculator">
+          <i class="fa-solid fa-calculator"></i> Commission Calc
+        </a>
+        <a href="#records" class="nav-link" data-tab="records">
+          <i class="fa-solid fa-database"></i> Saved Records
+        </a>
+        <a href="#rules" class="nav-link" data-tab="rules">
+          <i class="fa-solid fa-receipt"></i> Rules Reference
+        </a>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="db-status-badge">
+          <span class="status-dot connected" id="db-status-dot"></span>
+          <span class="status-text" id="db-status-text">Database Connected</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      
+      <!-- Topbar Header -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <h1 id="page-title">Dashboard Overview</h1>
+          <p class="subtitle" id="page-subtitle">Track and analyze sales collection commissions</p>
+        </div>
+        <div class="topbar-right">
+          <div class="date-display">
+            <i class="fa-regular fa-calendar-days"></i>
+            <span id="current-date">May 20, 2026</span>
+          </div>
+          <button class="theme-toggle" id="theme-toggle-btn" aria-label="Toggle Theme">
+            <i class="fa-solid fa-sun icon-sun"></i>
+            <i class="fa-solid fa-moon icon-moon"></i>
+          </button>
+        </div>
+      </header>
+
+      <!-- Dashboard Sections Container -->
+      <div class="content-body" id="content-body">
+        <!-- Sections (overview, calculator, records, rules) are injected dynamically -->
+        <div class="loading-container text-center" style="padding: 3rem; color: var(--text-muted); display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 200px;">
+          <i class="fa-solid fa-spinner fa-spin" style="font-size: 2rem; margin-bottom: 1rem; color: var(--color-blue);"></i>
+          <p>Loading Dashboard Components...</p>
+        </div>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- SLIP PRINT MODAL / PREVIEW -->
+  <div id="print-modal" class="modal-overlay">
+    <div class="modal-content glassmorphic-modal">
+      <div class="modal-header">
+        <h3>Print Commission Slip</h3>
+        <button class="btn-close-modal" id="btn-close-print-modal"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body" id="printable-slip-area">
+        <!-- Dynamically loaded slip contents go here -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary-outline" id="btn-close-modal-cancel">Close</button>
+        <button class="btn btn-primary" id="btn-trigger-print">
+          <i class="fa-solid fa-print"></i> Print Slip
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Global Alert/Notification System -->
+  <div class="notification-container" id="notification-container"></div>
+
+  <!-- Main Application Logic script -->
+  <script src="app.js"></script>
+</body>
+</html>

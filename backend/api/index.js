@@ -4,7 +4,8 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const path = require('path');
 
-dotenv.config();
+// লোকাল এবং ভার্সেল সার্ভারলেস দুই জায়গার জন্যই নিখুঁতভাবে .env ফাইলের পাথ চিনিয়ে দেওয়া
+dotenv.config({ path: path.join(__dirname, '../../.env') });
 
 const app = express();
 
@@ -25,12 +26,13 @@ async function connectDB() {
     return cachedDb;
   }
   
+  // ভার্সেল ড্যাশবোর্ড বা .env থেকে MONGODB_URI নেওয়া
   const uri = process.env.MONGODB_URI;
   if (!uri) {
     throw new Error('MONGODB_URI is not defined in environment variables');
   }
 
-  // Connect without deprecated options
+  // Connect to MongoDB Atlas
   const db = await mongoose.connect(uri);
   cachedDb = db;
   return db;

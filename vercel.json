@@ -20,6 +20,14 @@
       "dest": "/frontend/app.js"
     },
     {
+      "src": "/favicon.svg",
+      "dest": "/frontend/favicon.svg"
+    },
+    {
+      "src": "/favicon.ico",
+      "dest": "/frontend/favicon.svg"
+    },
+    {
       "src": "/sections/(.*)",
       "dest": "/frontend/sections/$1"
     },

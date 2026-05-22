@@ -1,5 +1,7 @@
 # CommisSync — Commission System Dashboard
 
+🌐 **Live App:** [https://commission-ase.vercel.app](https://commission-ase.vercel.app)
+
 A full-stack, premium-designed **Sales Commission Calculation & Tracking System** built with Express.js, MongoDB Atlas, and Vanilla JavaScript.
 
 ---
@@ -55,8 +57,8 @@ A full-stack, premium-designed **Sales Commission Calculation & Tracking System*
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/your-username/commission.git
-   cd commission
+   git clone https://github.com/ashik44-ub/asecommission.git
+   cd asecommission
    ```
 
 2. **Install dependencies**
@@ -76,6 +78,8 @@ A full-stack, premium-designed **Sales Commission Calculation & Tracking System*
    ```
    Open [http://localhost:5000](http://localhost:5000) in your browser.
 
+   Or visit the live deployment at: [https://commission-ase.vercel.app](https://commission-ase.vercel.app)
+
 ---
 
 ## ☁️ Deploy to Vercel
@@ -94,9 +98,14 @@ A full-stack, premium-designed **Sales Commission Calculation & Tracking System*
 ```
 commission/
 ├── frontend/             # Frontend client assets
-│   ├── index.html        # Main dashboard page
+│   ├── index.html        # Shell HTML — loads sections dynamically
 │   ├── style.css         # Custom premium CSS styles
-│   └── app.js            # Client-side calculator and charts logic
+│   ├── app.js            # Client-side calculator and charts logic
+│   └── sections/         # Modular HTML section components
+│       ├── overview.html # Dashboard overview section
+│       ├── calculator.html # Commission calculator section
+│       ├── records.html  # Saved records table section
+│       └── rules.html    # Commission rules reference section
 ├── backend/              # Backend server environment
 │   ├── api/
 │   │   └── index.js      # Express application and API routes

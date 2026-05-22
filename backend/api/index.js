@@ -22,20 +22,31 @@ app.use(express.json());
 let cachedDb = null;
 
 async function connectDB() {
+  // যদি অলরেডি কানেক্টেড থাকে এবং কানেকশন সচল থাকে, তবে আগেরটাই রিটার্ন করবে
   if (cachedDb && mongoose.connection.readyState === 1) {
     return cachedDb;
   }
   
-  // ভার্সেল ড্যাশবোর্ড বা .env থেকে MONGODB_URI নেওয়া
   const uri = process.env.MONGODB_URI;
   if (!uri) {
     throw new Error('MONGODB_URI is not defined in environment variables');
   }
 
-  // Connect to MongoDB Atlas
-  const db = await mongoose.connect(uri);
-  cachedDb = db;
-  return db;
+  // Serverless Environment-এ কানেকশন ড্রপ হওয়া বন্ধ করার জন্য বেস্ট অপশনস
+  const options = {
+    bufferCommands: false,         // কানেকশন না থাকলে কুয়েরি বাফার করা বন্ধ রাখবে
+    serverSelectionTimeoutMS: 5000, // ৫ সেকেন্ডের মধ্যে কানেক্ট না হলে টাইমআউট দিবে
+    socketTimeoutMS: 45000,         // ৪৫ সেকেন্ড পর্যন্ত সকেট কানেকশন সচল রাখবে
+  };
+
+  try {
+    const db = await mongoose.connect(uri, options);
+    cachedDb = db;
+    return db;
+  } catch (error) {
+    console.error('Initial MongoDB connection failed:', error);
+    throw error;
+  }
 }
 
 // Ensure database connection middleware
@@ -49,11 +60,9 @@ app.use(async (req, res, next) => {
     await connectDB();
     next();
   } catch (err) {
-    console.error('MongoDB connection error:', err);
-    res.status(500).json({
-      error: 'Database connection failed',
-      message: err.message
-    });
+    console.error('MongoDB connection error middleware:', err);
+    // লাইভে কানেকশন ফেইল করলে ফ্রন্টএন্ডকে ক্র্যাশ করতে না দিয়ে অফলাইন হ্যান্ডলিং সচল রাখা
+    next();
   }
 });
 
@@ -71,7 +80,8 @@ const CommissionRecordSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now }
 });
 
-const CommissionRecord = mongoose.model('CommissionRecord', CommissionRecordSchema);
+// মঙ্গোডিবি যেন অলরেডি রেজিস্টার্ড মডেল নিয়ে এরর না দেয় (Serverless Safe Re-use)
+const CommissionRecord = mongoose.models.CommissionRecord || mongoose.model('CommissionRecord', CommissionRecordSchema);
 
 // Calculation Helpers
 function calculateCollectionCommission(collection) {

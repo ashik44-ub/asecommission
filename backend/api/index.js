@@ -27,6 +27,7 @@ async function connectDB() {
     return cachedDb;
   }
   
+  // ভার্সেল ড্যাশবোর্ড বা .env থেকে MONGODB_URI নেওয়া
   const uri = process.env.MONGODB_URI;
   if (!uri) {
     throw new Error('MONGODB_URI is not defined in environment variables');
